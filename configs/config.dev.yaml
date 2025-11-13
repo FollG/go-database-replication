@@ -1,0 +1,14 @@
+http:
+  port: "8080"
+
+database:
+  master: "mysql-master:3306"
+  slaves:
+    - "mysql-slave1:3306"
+    - "mysql-slave2:3306"
+    - "mysql-slave3:3306"
+  username: "root"
+  password: "rootpassword"
+  database: "test_db"
+  max_conns: 25
+  max_idle: 5

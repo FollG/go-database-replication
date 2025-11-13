@@ -1,17 +1,18 @@
 # Build stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.25.3-alpine AS builder
 
 WORKDIR /app
 
 # Install dependencies
 RUN apk add --no-cache git ca-certificates tzdata
 
-# Copy go mod files
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copy source code
+# Copy entire project
 COPY . .
+
+# Verify that go.mod exists
+
+# Download dependencies
+RUN go mod download
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build \

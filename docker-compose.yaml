@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # MySQL Master
+  mysql-master:
+    image: mysql:8.0
+    container_name: mysql-master
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: test_db
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --server-id=1
+      - --log-bin=mysql-bin
+      - --binlog-format=ROW
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      timeout: 30s
+      retries: 10
+
+  # MySQL Slave 1
+  mysql-slave1:
+    image: mysql:8.0
+    container_name: mysql-slave1
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --server-id=2
+      - --read-only=1
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    ports:
+      - "3307:3306"
+    depends_on:
+      - mysql-master
+
+  # MySQL Slave 2
+  mysql-slave2:
+    image: mysql:8.0
+    container_name: mysql-slave2
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --server-id=3
+      - --read-only=1
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    ports:
+      - "3308:3306"
+    depends_on:
+      - mysql-master
+
+  # MySQL Slave 3
+  mysql-slave3:
+    image: mysql:8.0
+    container_name: mysql-slave3
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --server-id=4
+      - --read-only=1
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    ports:
+      - "3309:3306"
+    depends_on:
+      - mysql-master
+
+  # Go Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kafka-dbreplication-app
+    environment:
+      - APP_ENV=dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-master:
+        condition: service_healthy
+      mysql-slave1:
+        condition: service_started
+      mysql-slave2:
+        condition: service_started
+      mysql-slave3:
+        condition: service_started

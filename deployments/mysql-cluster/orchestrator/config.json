@@ -1,0 +1,46 @@
+{
+  "Debug": true,
+  "EnableSyslog": false,
+  "ListenAddress": ":3000",
+
+  "MySQLTopologyUser": "orchestrator",
+  "MySQLTopologyPassword": "orchestratorpassword",
+  "MySQLTopologyCredentialsConfigFile": "",
+  "MySQLTopologySSLPrivateKeyFile": "",
+  "MySQLTopologySSLCertFile": "",
+  "MySQLTopologySSLCAFile": "",
+  "MySQLTopologySSLSkipVerify": true,
+  "MySQLTopologyUseMutualTLS": false,
+
+  "MySQLOrchestratorHost": "orchestrator-db",
+  "MySQLOrchestratorPort": 3306,
+  "MySQLOrchestratorDatabase": "orchestrator",
+  "MySQLOrchestratorUser": "orchestrator",
+  "MySQLOrchestratorPassword": "orchestratorpassword",
+
+  "DetectClusterAliasQuery": "SELECT SUBSTRING_INDEX(@@hostname, '-', -1) AS cluster_alias",
+  "DetectInstanceAliasQuery": "SELECT @@hostname AS instance_alias",
+  "DetectDataCenterQuery": "SELECT 'datacenter1' AS data_center",
+  "DetectPhysicalEnvironmentQuery": "SELECT 'environment' AS physical_environment",
+
+  "PromotionIgnoreHostnameFilters": [
+    "test",
+    "localhost"
+  ],
+
+  "RecoverMasterClusterFilters": [
+    "*"
+  ],
+
+  "AutoFailover": true,
+  "FailoverMasterEnvironmentFilters": [
+    "*"
+  ],
+  "DelayMasterPromotionIfSQLThreadNotUpToDate": true,
+  "PostponeReplicaRecoveryOnLagMinutes": 0,
+
+  "RaftEnabled": false,
+  "RaftDataDir": "",
+  "RaftBind": "",
+  "DefaultRaftPort": 10008
+}

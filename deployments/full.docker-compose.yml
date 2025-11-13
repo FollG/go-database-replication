@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysql-master:
+    extends:
+      file: db.docker-compose.yml
+      service: mysql-master
+
+  mysql-slave1:
+    extends:
+      file: db.docker-compose.yml
+      service: mysql-slave1
+
+  mysql-slave2:
+    extends:
+      file: db.docker-compose.yml
+      service: mysql-slave2
+
+  mysql-slave3:
+    extends:
+      file: db.docker-compose.yml
+      service: mysql-slave3
+
+  app:
+    extends:
+      file: app.docker-compose.yml
+      service: app
+
+volumes:
+  mysql_master_data:
+    external: true
+  mysql_slave1_data:
+    external: true
+  mysql_slave2_data:
+    external: true
+  mysql_slave3_data:
+    external: true
+
+networks:
+  kafka-db-network:
+    driver: bridge

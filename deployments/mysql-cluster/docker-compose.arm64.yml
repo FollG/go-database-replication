@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  mysql-master:
+    image: mysql:8.0
+    container_name: mysql-master
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: qwerty123
+      MYSQL_DATABASE: test_db
+      MYSQL_ROOT_HOST: '%'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./master/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./master/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - master_data:/var/lib/mysql
+    networks:
+      - mysql-cluster
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pqwerty123"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
+  mysql-slave1:
+    image: mysql:8.0
+    container_name: mysql-slave1
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: "slavepassword"
+      MYSQL_ROOT_HOST: '%'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./slave1/my.cnf:/etc/mysql/conf.d/my.cnf
+      - slave1_data:/var/lib/mysql
+    networks:
+      - mysql-cluster
+    ports:
+      - "3307:3306"
+    depends_on:
+      mysql-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pslave1_root_password"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
+  mysql-slave2:
+    image: mysql:8.0
+    container_name: mysql-slave2
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: "slavepassword"
+      MYSQL_ROOT_HOST: '%'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./slave1/my.cnf:/etc/mysql/conf.d/my.cnf
+      - slave2_data:/var/lib/mysql
+    networks:
+      - mysql-cluster
+    ports:
+      - "3308:3306"
+    depends_on:
+      mysql-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pslave2_root_password"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
+  mysql-slave3:
+    image: mysql:8.0
+    container_name: mysql-slave3
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: "slavepassword"
+      MYSQL_ROOT_HOST: '%'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./slave1/my.cnf:/etc/mysql/conf.d/my.cnf
+      - slave3_data:/var/lib/mysql
+    networks:
+      - mysql-cluster
+    ports:
+      - "3309:3306"
+    depends_on:
+      mysql-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pslave3_root_password"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  master_data:
+  slave1_data:
+  slave2_data:
+  slave3_data:
+
+networks:
+  mysql-cluster:
+    driver: bridge
