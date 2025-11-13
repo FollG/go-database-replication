@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: build/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=prod
+      - DB_PASSWORD=rootpassword
+    depends_on:
+      - mysql-master
+      - mysql-slave1
+      - mysql-slave2
+      - mysql-slave3
+    networks:
+      - mysql-cluster
+
+  # Остальные сервисы (mysql, orchestrator, haproxy) как в предыдущем ответе
+  # Они будут в deployments/mysql-cluster/docker-compose.yml
