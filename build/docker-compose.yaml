@@ -17,6 +17,3 @@ services:
       - mysql-slave3
     networks:
       - mysql-cluster
-
-  # Остальные сервисы (mysql, orchestrator, haproxy) как в предыдущем ответе
-  # Они будут в deployments/mysql-cluster/docker-compose.yml
