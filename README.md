@@ -87,17 +87,7 @@ graph TB
 ## 📁 Project Structure
 
 ```
-go-database-replication/
-├── 📁 app/                 # Go application source code
-│   ├── main.go            # Application entry point
-│   ├── database/          # Database connection logic
-│   └── models/            # Data models
-├── 📁 config/             # Configuration files
-│   ├── master.cnf         # MySQL Master configuration
-│   └── slave.cnf          # MySQL Slave configuration
-├── 📁 scripts/            # Database initialization scripts
-├── docker-compose.yml     # Multi-container setup
-└── README.md             # This file 🎉
+TODO
 ```
 
 ## ⚙️ Configuration
