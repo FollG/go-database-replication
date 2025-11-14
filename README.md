@@ -103,7 +103,7 @@ TODO
 | `MASTER_DB_USER` | `./configs.*.yaml` | Database username |
 | `SLAVE_DB_USER` | `./configs.*.yaml` | Database username |
 | `MASTER_DB_PASSWORD` | `./configs.*.yaml` | Database password |
-| `DB_PASSWORD` | `./configs.*.yaml` | Database password |
+| `SLAVE_DB_PASSWORD` | `./configs.*.yaml` | Database password |
 
 
 ## 🧪 Testing Replication
