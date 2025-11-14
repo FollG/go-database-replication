@@ -1,29 +1,29 @@
-# 🚀 Go Database Replication
+# 🚀 Репликация базы данных на Go
 
-> A robust and scalable Go application with MySQL master-slave replication running in Docker containers! 💾
+> Надежное и масштабируемое Go-приложение с MySQL master-slave репликацией, работающее в Docker-контейнерах! 💾
 
-![Go Version](https://img.shields.io/badge/Go-1.25.3-00ADD8?style=for-the-badge&logo=go)
+![Версия Go](https://img.shields.io/badge/Go-1.25.3+-00ADD8?style=for-the-badge&logo=go)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
-![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)
+![Docker](https://img.shields.io/badge/Docker-Контейнеризовано-2496ED?style=for-the-badge&logo=docker)
 
-## 📖 Overview
+## 📖 Обзор
 
-This project demonstrates a **high-availability database architecture** using MySQL master-slave replication with a Go backend. Perfect for learning about distributed systems and database scaling! 🎯
+Этот проект демонстрирует **архитектуру базы данных высокой доступности** с использованием MySQL master-slave репликации и Go-бэкенда. Идеально подходит для изучения распределенных систем и масштабирования баз данных! 🎯
 
-### ✨ Features
+### ✨ Возможности
 
-- 🏗 **Master-Slave Replication** - 1 Master + 3 Slave nodes
-- 🐳 **Docker Containerized** - Easy deployment and scaling
-- 🔄 **Automatic Failover** - Built-in replication monitoring
-- ⚡ **High Performance** - Read scalability across multiple slaves
-- 🔒 **Data Consistency** - ACID compliance with replication
-- 📊 **Health Monitoring** - Built-in database health checks
+- 🏗 **Master-Slave репликация** - 1 Master + 3 Slave узла
+- 🐳 **Docker-контейнеризация** - Простое развертывание и масштабирование
+- 🔄 **Автоматический переход на резерв** - Встроенный мониторинг репликации
+- ⚡ **Высокая производительность** - Масштабируемость чтения на нескольких slave-узлах
+- 🔒 **Согласованность данных** - Соответствие ACID с репликацией
+- 📊 **Мониторинг здоровья** - Встроенные проверки состояния базы данных
 
-## 🏗 Architecture
+## 🏗 Архитектура
 
 ```mermaid
 graph TB
-    A[Go Application] --> B[MySQL Master]
+    A[Go приложение] --> B[MySQL Master]
     B --> C[Slave 1]
     B --> D[Slave 2]
     B --> E[Slave 3]
@@ -34,143 +34,150 @@ graph TB
     style D fill:#51cf66
     style E fill:#51cf66
 ```
-🛠 Tech Stack
 
-Component->Technology->Purpose
+## 🛠 Технологический стек
 
-Backend	![Go Version](https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white) High-performance API server
-
-Database	![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)	Primary data storage 
-
-Container	![Container](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)	Environment isolation
-
-Orchestration	![Orchestration](https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white)	Multi-container management
-
-🚀 Quick Start
-Prerequisites
-
-🐳 Docker
-
-🐳 Docker Compose
-
-⚙️ Go 1.25.3+ (for local development)
-
-Installation
-Clone the repository
-
-bash
+```markdown
+| Компонент | Технология | Назначение |
+|-----------|------------|---------|
+| **Бэкенд** | ![Go](https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white) | Высокопроизводительный API-сервер |
+| **База данных** | ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white) | Основное хранилище данных |
+| **Контейнеризация** | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | Изоляция окружения |
+| **Оркестрация** | ![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white) | Управление мульти-контейнерами |
 ```
-git clone https://github.com/FollG/go-database-replication.git
 
-cd go-database-replication
-```
-Start the environment
+## 🚀 Быстрый старт
 
-bash
+### Предварительные требования
 
-# Start all services (Master + 3 Slaves + Go App)
-```
-docker-compose up -d
-```
-Verify services are running
+- 🐳 [Docker](https://docs.docker.com/get-docker/) 
+- 🐳 [Docker Compose](https://docs.docker.com/compose/install/)
+- ⚙️ [Go 1.25.3+](https://golang.org/dl/) (для локальной разработки)
 
-bash
-```
-docker-compose ps
-```
-✅ You should see 5 containers running!
+### Установка
 
-Check replication status
+1. **Клонируйте репозиторий**
+   ```bash
+   git clone https://github.com/FollG/go-database-replication.git
+   cd go-database-replication
+    ```
 
-bash
-# Connect to master and check slave status
-docker-compose exec mysql-master mysql -uroot -psecret -e "SHOW SLAVE HOSTS;"
-📁 Project Structure
-text
+2. **Запустите окружение**
+   ```bash
+   # Запуск всех сервисов (Master + 3 Slave + Go приложение)
+   docker-compose up -d
+   ```
+
+3. **Проверьте, что сервисы работают**
+   ```bash
+   docker-compose ps
+   ```
+   ✅ Вы должны увидеть 5 запущенных контейнеров!
+
+4. **Проверьте статус репликации**
+   ```bash
+   # Подключитесь к master и проверьте статус slave-ов
+   docker-compose exec mysql-master mysql -uroot -psecret -e "SHOW SLAVE HOSTS;"
+   ```
+
+## 📁 Структура проекта
+
 ```
 go-database-replication/
-├── 📁 app/                 # Go application source code
-│   ├── main.go            # Application entry point
-│   ├── database/          # Database connection logic
-│   └── models/            # Data models
-├── 📁 config/             # Configuration files
-│   ├── master.cnf         # MySQL Master configuration
-│   └── slave.cnf          # MySQL Slave configuration
-├── 📁 scripts/            # Database initialization scripts
-├── docker-compose.yml     # Multi-container setup
-└── README.md             # This file 🎉
+├── 📁 app/                 # Исходный код Go-приложения
+│   ├── main.go            # Точка входа приложения
+│   ├── database/          # Логика подключения к БД
+│   └── models/            # Модели данных
+├── 📁 config/             # Файлы конфигурации
+│   ├── master.cnf         # Конфигурация MySQL Master
+│   └── slave.cnf          # Конфигурация MySQL Slave
+├── 📁 scripts/            # Скрипты инициализации БД
+├── docker-compose.yml     # Настройка мульти-контейнеров
+└── README.md             # Этот файл 🎉
 ```
-⚙️ Configuration
 
-Environment Variables
+## ⚙️ Конфигурация
 
-| Variable            | Default	Description                                |
-| --------------------|:--------------------------------------------------:|
-| DB_MASTER_HOST      | mysql-master	(Master database host)               |
-| DB_MASTER_PORT      | 3306	(Master database port)                       |
-| DB_SLAVE_HOSTS      | slave1,slave2,slave3 (Comma-separated slave hosts) |
-| DB_USER             | slave1,slave2,slave3 (Comma-separated slave hosts) |
-| DB_PASSWORD         | app_user	(Database username)                      |
+### Переменные окружения
 
-DB_PASSWORD	app_password	Database password
-🧪 Testing the Replication
-Write to Master
-bash
-# This will create data on the master
+```markdown
+| Переменная | По умолчанию | Описание |
+|----------|---------|-------------|
+| `DB_MASTER_HOST` | `mysql-master` | Хост master-базы данных |
+| `DB_MASTER_PORT` | `3306` | Порт master-базы данных |
+| `DB_SLAVE_HOSTS` | `slave1,slave2,slave3` | Список slave-хостов через запятую |
+| `DB_USER` | `app_user` | Имя пользователя БД |
+| `DB_PASSWORD` | `app_password` | Пароль БД |
+```
+
+## 🧪 Тестирование репликации
+
+### Запись в Master
+```bash
+# Это создаст данные на master-узле
 curl -X POST http://localhost:8080/api/data \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello from Master!"}'
-Read from Slaves
-bash
-# This will read from slave nodes (round-robin)
+```
+
+### Чтение из Slave
+```bash
+# Это будет читать из slave-узлов (round-robin)
 curl http://localhost:8080/api/data
-🐛 Troubleshooting
-Common Issues
-Connection Refused
+```
 
-bash
-# Check if containers are running
-docker-compose ps
+## 🐛 Решение проблем
 
-# Check master logs
-docker-compose logs mysql-master
-Replication Not Working
+### Частые проблемы
 
-bash
-# Check slave status
-docker-compose exec mysql-slave1 mysql -uroot -psecret -e "SHOW SLAVE STATUS\G"
-Application Can't Connect
+1. **Connection Refused**
+   ```bash
+   # Проверьте, запущены ли контейнеры
+   docker-compose ps
+   
+   # Проверьте логи master
+   docker-compose logs mysql-master
+   ```
 
-bash
-# Verify network
-docker network ls
-docker network inspect go-database-replication_default
-🤝 Contributing
-We love contributions! 🎉 Here's how you can help:
+2. **Репликация не работает**
+   ```bash
+   # Проверьте статус slave
+   docker-compose exec mysql-slave1 mysql -uroot -psecret -e "SHOW SLAVE STATUS\G"
+   ```
 
-🍴 Fork the project
+3. **Приложение не может подключиться**
+   ```bash
+   # Проверьте сеть
+   docker network ls
+   docker network inspect go-database-replication_default
+   ```
 
-🌿 Create your feature branch (git checkout -b feature/AmazingFeature)
+## 🤝 Участие в разработке
 
-💾 Commit your changes (git commit -m 'Add some AmazingFeature')
+Мы рады contributions! 🎉 Вот как вы можете помочь:
 
-📤 Push to the branch (git push origin feature/AmazingFeature)
+1. 🍴 Сделайте форк проекта
+2. 🌿 Создайте ветку для функции (`git checkout -b feature/AmazingFeature`)
+3. 💾 Закоммитьте изменения (`git commit -m 'Add some AmazingFeature'`)
+4. 📤 Запушьте в ветку (`git push origin feature/AmazingFeature`)
+5. 🔃 Откройте Pull Request
 
-🔃 Open a Pull Request
+## 📜 Лицензия
 
-📜 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+Этот проект лицензирован под MIT License - смотрите файл [LICENSE](LICENSE) для деталей.
 
-🙏 Acknowledgments
-MySQL Documentation for replication setup
+## 🙏 Благодарности
 
-Docker community for excellent containerization guides
+- Документация MySQL за настройку репликации
+- Сообщество Docker за отличные гайды по контейнеризации
+- Сообщество Go за лучшие практики и библиотеки
 
-Go community for best practices and libraries
+---
 
 <div align="center">
-⭐ Don't forget to star this repo if you found it helpful! ⭐
 
-Made with ❤️ and ☕ by FollG
+**⭐ Не забудьте поставить звезду репозиторию, если он был полезен! ⭐**
+
+Сделано с ❤️ и ☕ от [FollG](https://github.com/FollG)
 
 </div>
